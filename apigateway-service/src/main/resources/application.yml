@@ -82,7 +82,7 @@ spring:
             - Path=/order-service/**
         - id: first-service
           uri: lb://MY-FIRST-SERVICE
-          predicates:
+          predicates: # predicates 의 경로로 들어오면 위의 uri 경로로 요청을 전달한다
             - Path=/first-service/**
           filters:
             - AddRequestHeader=first-request, first-request-header-by-yaml
