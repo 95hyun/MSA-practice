@@ -38,7 +38,7 @@ spring:
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - RewritePath=/user-service/(?<segment>.*), /$\{segment} # 사용자의 요청 uri를 재정의하여 /user-service 를 빼고 /login으로 요청을 보낸다.
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
@@ -81,8 +81,8 @@ spring:
           predicates:
             - Path=/order-service/**
         - id: first-service
-#          uri: lb://MY-FIRST-SERVICE
-          uri: http://localhost:8081
+          uri: lb://MY-FIRST-SERVICE
+#          uri: http://localhost:8081
           predicates: # 사용자의 요청이 predicates 의 경로로 들어오면 위의 uri 경로로 요청을 전달한다
             - Path=/first-service/**
           filters:
@@ -90,8 +90,8 @@ spring:
             - AddResponseHeader=first-response, first-response-header-from-yaml
             - CustomFilter
         - id: second-service
-#          uri: lb://MY-SECOND-SERVICE
-          uri: http://localhost:8082
+          uri: lb://MY-SECOND-SERVICE
+#          uri: http://localhost:8082
           predicates:
             - Path=/second-service/**
           filters:
