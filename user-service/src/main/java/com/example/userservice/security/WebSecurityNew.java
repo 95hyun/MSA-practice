@@ -57,6 +57,7 @@ public class WebSecurityNew {
                         .requestMatchers(new AntPathRequestMatcher("/actuator/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/users", "POST")).permitAll()
+//                        .requestMatchers(new AntPathRequestMatcher("/users")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/welcome")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/health-check")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
@@ -64,7 +65,7 @@ public class WebSecurityNew {
                         .requestMatchers(new AntPathRequestMatcher("/v3/api-docs/**")).permitAll()
 //                        .requestMatchers("/**").access(this::hasIpAddress)
                         .requestMatchers("/**").access(
-                                new WebExpressionAuthorizationManager("hasIpAddress('localhost') or hasIpAddress('127.0.0.1') or hasIpAddress('172.30.96.94')")) // host pc ip address
+                                new WebExpressionAuthorizationManager("hasIpAddress('::1') or hasIpAddress('127.0.0.1') or hasIpAddress('192.168.45.174')or hasIpAddress('172.18.0.1')")) // host pc ip address
                         .anyRequest().authenticated()
                 )
                 .authenticationManager(authenticationManager)

@@ -10,10 +10,11 @@ spring:
     config:
       server:
         native:
-          search-locations: file:///C://work//git-local-repo
+          search-locations: file:///Users/hyun/Desktop/cns_msa/msa-practice/msa-practice-config
         git: #default
-          uri: https://github.com/joneconsulting/spring-cloud-config
-          default-label: master
+#          uri: https://github.com/joneconsulting/spring-cloud-config
+          uri: file:///Users/hyun/Desktop/cns_msa/msa-practice/msa-practice-config
+          default-label: main
 #          username: <github-id>
 #          password: <gihub-accessToken>
         bootstrap: true

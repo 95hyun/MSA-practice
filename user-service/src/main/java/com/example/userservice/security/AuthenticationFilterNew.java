@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Objects;
 
 @Slf4j
 public class AuthenticationFilterNew  extends UsernamePasswordAuthenticationFilter {
@@ -64,13 +65,15 @@ public class AuthenticationFilterNew  extends UsernamePasswordAuthenticationFilt
 
         byte[] secretKeyBytes = Base64.getEncoder().encode(environment.getProperty("token.secret").getBytes());
 
+        log.info("token secret {}" + environment.getProperty("token.secret"));
+
         SecretKey secretKey = Keys.hmacShaKeyFor(secretKeyBytes);
 
         Instant now = Instant.now();
 
         String token = Jwts.builder()
                 .subject(userDetails.getUserId())
-                .expiration(Date.from(now.plusMillis(Long.parseLong(environment.getProperty("token.expiration_time")))))
+                .expiration(Date.from(now.plusMillis(Long.parseLong(Objects.requireNonNull(environment.getProperty("token.expiration_time"))))))
                 .issuedAt(Date.from(now))
                 .signWith(secretKey)
                 .compact();

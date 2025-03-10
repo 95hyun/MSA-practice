@@ -5,3 +5,6 @@ spring:
       name: user-service
 #  profiles:
 #    active: dev
+
+#token:
+#  secret: user_token

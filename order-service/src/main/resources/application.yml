@@ -9,7 +9,7 @@ spring:
 #    port: 5672
 #    username: guest
 #    password: guest
-  zipkin:
+  zipkin: # 모니터링에 사용됨
     base-url: http://127.0.0.1:9411
     enabled: true
   h2:

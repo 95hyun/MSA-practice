@@ -4,6 +4,7 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.env.Environment;
@@ -49,6 +50,9 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
             String authorizationHeader = request.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
             String jwt = authorizationHeader.replace("Bearer ", "");
 
+            log.info("📢 Received JWT: {}", jwt);
+            log.info("📢 Token Secret: {}", env.getProperty("token.secret")); // 여기서 null이면 문제 있음
+
             if (!isJwtValid(jwt)) {
                 return onError(exchange, "JWT token is not valid", HttpStatus.UNAUTHORIZED);
             }
@@ -81,10 +85,12 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
 
             subject = jwtParser.parseClaimsJws(jwt).getBody().getSubject();
         } catch (Exception ex) {
+            log.error("Invalid JWT token: {}", ex.getMessage());
             returnValue = false;
         }
 
         if (subject == null || subject.isEmpty()) {
+            log.info("subject empty");
             returnValue = false;
         }
 
